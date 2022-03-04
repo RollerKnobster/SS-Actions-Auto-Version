@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ss-sample-python-api"
-version = "0.1.0"
+version = "1.0.0"
 description = "Sample SS project."
 authors = ["Roman Ivaniuk"]
 license = "AGPL-3.0"
