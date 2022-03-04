@@ -25,14 +25,5 @@ jobs:
           VERSION=${GITHUB_REF##*/}
           EOF
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ env.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: ${{ env.REPO }}:latest,${{ env.REPO }}:${{ env.VERSION }}
+        run: echo "${{ env.REPO }}:latest,${{ env.REPO }}:${{ env.VERSION }}"
