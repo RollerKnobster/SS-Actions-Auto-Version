@@ -3,6 +3,8 @@ on:
   push:
     tags:
       - 'v*'
+  release:
+    types: [published]
 
 env:
   DOCKER_USERNAME: thedoorknobster
@@ -27,41 +29,3 @@ jobs:
 
       - name: Build and push
         run: echo "${{ env.REPO }}:latest,${{ env.REPO }}:${{ env.VERSION }}"
-
-      - name: Create Release Notes
-        if: ${{ !( contains(env.VERSION, 'alpha')
-          || contains(env.VERSION, 'beta')
-          || contains(env.VERSION, 'rc')) }}
-        uses: actions/github-script@v4.0.2
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            await github.request(`POST /repos/${{ github.repository }}/releases`, {
-              tag_name: "${{ env.VERSION }}",
-              generate_release_notes: true
-            });
-      - name: Create Pre-Release Notes
-        if: ${{ ( contains(env.VERSION, 'alpha')
-          || contains(env.VERSION, 'beta')
-          || contains(env.VERSION, 'rc')) }}
-        uses: actions/github-script@v4.0.2
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            await github.request(`POST /repos/${{ github.repository }}/releases`, {
-              tag_name: "${{ env.VERSION }}",
-              generate_release_notes: true,
-              prerelease: true
-            });
-            
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # provided by Actions
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body_path: RELEASE.md
-          draft: true
-          prerelease: false
