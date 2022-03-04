@@ -8,3 +8,5 @@ semantic version based on the conventional commits' history.
 
 This version is then applied to the docker image as a tag, which is pushed to the repo
 described in the Action.
+
+teste autoversion;
