@@ -29,8 +29,7 @@ jobs:
         run: echo "${{ env.REPO }}:latest,${{ env.REPO }}:${{ env.VERSION }}"
 
       - name: Create Release Notes
-        if: ${{ !startsWith(github.ref, 'refs/tags/')
-          && !( contains(env.VERSION, 'alpha')
+        if: ${{ !( contains(env.VERSION, 'alpha')
           || contains(env.VERSION, 'beta')
           || contains(env.VERSION, 'rc')) }}
         uses: actions/github-script@v4.0.2
@@ -42,8 +41,7 @@ jobs:
               generate_release_notes: true
             });
       - name: Create Pre-Release Notes
-        if: ${{ !startsWith(github.ref, 'refs/tags/')
-          && ( contains(env.VERSION, 'alpha')
+        if: ${{ ( contains(env.VERSION, 'alpha')
           || contains(env.VERSION, 'beta')
           || contains(env.VERSION, 'rc')) }}
         uses: actions/github-script@v4.0.2
