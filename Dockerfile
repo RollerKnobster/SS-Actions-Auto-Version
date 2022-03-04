@@ -30,6 +30,7 @@ RUN groupadd -g 1000 app && \
 # Custom home for easier interactions inside container
 ENV HOME "/app"
 
+# teste
 # Copy the app code to the place expected by the runner
 # and make app user own everything in the directory.
 COPY ./app /app/app/
