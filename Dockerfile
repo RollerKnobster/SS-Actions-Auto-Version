@@ -9,7 +9,7 @@ ENV PIP_NO_CACHE_DIR=off \
     PYTHONUNBUFFERED=1
 
 ENV PYTHON_PIP_VERSION=21.1.2 \
-    POETRY_VERSION=1.1.6 \
+    POETRY_VERSION=1.1.9 \
     POETRY_VIRTUALENVS_CREATE=false
 
 # Use poetry for dependencies management.
