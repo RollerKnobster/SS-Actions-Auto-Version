@@ -5,8 +5,8 @@ on:
       - main
 
 env:
-  DOCKER_USERNAME: thedoorknobster
-  REPO: thedoorknobster/sample-app
+  DOCKER_USERNAME: prnbc
+  DOCKER_REPO: prnbc/oitec
 
 jobs:
   docker:
@@ -21,7 +21,7 @@ jobs:
 
       - name: Semantic versioning
         id: versioning
-        uses: PaulHatch/semantic-version@v4.0.2
+        uses: PaulHatch/semantic-version@v5.2.1
         with:
           branch: main
           tag_prefix: "v"
@@ -39,7 +39,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ env.REPO }}:latest,${{ env.REPO }}:${{ steps.versioning.outputs.version }}
+          tags: ${{ env.DOCKER_REPO }}:${{ github.event.repository.name }}-latest,${{ env.DOCKER_REPO }}:${{ github.event.repository.name }}-${{ steps.versioning.outputs.version }}
 
       - name: Create Release
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
