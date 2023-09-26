@@ -9,7 +9,8 @@ env:
   DOCKER_REPO: prnbc/oitec
 
 jobs:
-  docker:
+  build:
+    name: Tag version with image Build
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
