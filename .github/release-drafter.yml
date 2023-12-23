@@ -1,42 +1,81 @@
-# name-template: 'v$RESOLVED_VERSION'
-# tag-template: 'v$RESOLVED_VERSION'
-# autolabeler:
-#   - label: 'chore'
-#     files:
-#       - '*.md'
-#     branch:
-#       - '/docs{0,1}\/.+/'
-#   - label: 'bug'
-#     branch:
-#       - '/fix\/.+/'
-#     title:
-#       - '/fix/i'
-#   - label: 'enhancement'
-#     branch:
-#       - '/feature\/.+/'
-#     body:
-#       - '/JIRA-[0-9]{1,4}/'
-# categories:
-#   - title: '🚀 Features'
-#     labels:
-#       - 'feature'
-#       - 'feat'
-#       - 'enhancement'
-#   - title: '🐛 Bug Fixes'
-#     labels:
-#       - 'fix'
-#       - 'bugfix'
-#       - 'bug'
-#   - title: '🧰 Maintenance'
-#     labels:
-#       - 'fix'
-#       - 'bugfix'
-#       - 'bug'
-#       - 'chore'
-# change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-# change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
-# template: |
-#   ## What's Changed
+# Reference: https://github.com/release-drafter/release-drafter
 
-#   $CHANGES
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+exclude-labels:
+  - 'skip-changelog'
+  - 'ignore-for-release'
+  - 'wip'
+autolabeler:
+  - label: feature
+    branch: 
+      - '/feature\/.+/'
+      - '/feat\/.+/'
+      - '/enhancement\/.+/'
+  - label: fix
+    branch: 
+      - '/fix\/.+/'
+      - '/bugfix\/.+/'
+      - '/bug\/.+/'
+  - label: hotfix
+    branch: 
+      - '/hotfix\/.+/'
+  - label: chore
+    branch: 
+      - '/chore\/.+/'
+      - '/*.md'
+  - label: docs
+    branch: 
+      - '/docs\/.+/'
+  - label: refactor
+    branch: 
+      - '/refactor\/.+/'
+  - label: perf
+    branch: 
+      - '/perf\/.+/'
+  - label: test
+    branch: 
+      - '/test\/.+/'
+  - label: ci
+    branch: 
+      - '/ci\/.+/'
+  - label: revert
+    branch:
+      - '/revert\/.+/'
+categories:
+  - title: Breaking Changes 🛠
+    labels:
+      - 'Semver-Major'
+      - 'breaking-change'
+  - title: 🚀 Features
+    labels:
+      - 'feature'
+      - 'feat'
+      - 'enhancement'
+      - 'Semver-Minor'
+  - title: 🐛 Bug Fixes
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+  - title: 🔥 Hot Fixes
+    labels:
+      - 'hotfix'
+  - title: 🧰 Maintenance
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+      - 'chore'
+      - 'revert'
+      - 'ci'
+      - 'test'
+      - 'perf'
+      - 'refactor'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+template: |
+  ## What's Changed
+
+  $CHANGES
 
