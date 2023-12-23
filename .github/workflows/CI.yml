@@ -50,9 +50,9 @@ jobs:
       - name: Build and push
         run: |-
           echo "${{ env.REPO }}:latest,${{ env.REPO }}"
-          echo "${{ steps.paulhatchversioning.outputs }}"
-          echo "${{ steps.mathieudutourtag_version.outputs }}""
-          echo "${{ steps.anothrNicktagversion.outputs }}""
+          echo "${{ toJson(steps.paulhatchversioning.outputs) }}"
+          echo "${{ toJson(steps.mathieudutourtag_version.outputs) }}""
+          echo "${{ toJson(steps.anothrNicktagversion.outputs) }}""
           
       # - name: Create Release
       #   if: ${{ !startsWith(github.ref, 'refs/tags/') }}
