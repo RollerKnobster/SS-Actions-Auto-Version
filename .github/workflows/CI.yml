@@ -43,6 +43,7 @@ jobs:
         uses: anothrNick/github-tag-action@1.64.0 # Don't use @master or @v1 unless you're happy to test the latest version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
+          DEFAULT_BRANCH: main
           WITH_V: true
           #PRERELEASE: true
           DRY_RUN: true
@@ -59,7 +60,7 @@ jobs:
           echo "previous_tag: ${{ steps.mathieudutourtag_version.outputs.previous_tag }}"  
           echo "new_version: ${{ steps.mathieudutourtag_version.outputs.new_version }}"  
           echo "new_tag: ${{ steps.mathieudutourtag_version.outputs.new_tag }}"  
-          
+
           echo "anothrNicktagversion --"  
           echo "old_tag: ${{ steps.anothrNicktagversion.outputs.old_tag }}"  
           echo "new_tag: ${{ steps.anothrNicktagversion.outputs.new_tag }}" 
