@@ -20,16 +20,6 @@ jobs:
           fetch-depth: 0
       - name: PARAMETROS
         run: echo "1.0.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ID}"
-        
-      - name: Semantic versioning
-        id: paulhatchversioning
-        uses: PaulHatch/semantic-version@v4.0.2
-        with:
-          branch: main
-          tag_prefix: "v"
-          major_pattern: "(MAJOR)"
-          minor_pattern: "(MINOR)"
-          format: "v${major}.${minor}.${patch}" #-rc${increment}
 
       - name: Bump version and push tag
         id: mathieudutourtag_version
@@ -40,28 +30,28 @@ jobs:
 
       - name: Build and push
         run: |-
-          echo "${{ env.REPO }}:latest,${{ env.REPO }}"
-          echo "paulhatchversioning --"  
-          echo "version: ${{ steps.paulhatchversioning.outputs.version }}"  
-          echo "version_tag: ${{ steps.paulhatchversioning.outputs.version_tag }}" 
-
           echo "mathieudutourtag_version --"  
           echo "previous_version: ${{ steps.mathieudutourtag_version.outputs.previous_version }}"  
           echo "previous_tag: ${{ steps.mathieudutourtag_version.outputs.previous_tag }}"  
           echo "new_version: ${{ steps.mathieudutourtag_version.outputs.new_version }}"  
           echo "new_tag: ${{ steps.mathieudutourtag_version.outputs.new_tag }}"  
 
-          echo "anothrNicktagversion --"  
-          echo "old_tag: ${{ steps.anothrNicktagversion.outputs.old_tag }}"  
-          echo "new_tag: ${{ steps.anothrNicktagversion.outputs.new_tag }}" 
           
-      # - name: Create Release
-      #   if: ${{ !startsWith(github.ref, 'refs/tags/') }}
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.github_token }}
-      #   with:
-      #     tag_name: ${{ steps.versioning.outputs.version }}
-      #     release_name: ${{ steps.versioning.outputs.version }}
-      #     draft: true
-      #     prerelease: true
+      - name: Create Release
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+        with:
+          tag_name: ${{ steps.mathieudutourtag_version.outputs.new_tag }}
+          release_name: ${{ steps.mathieudutourtag_version.outputs.new_tag }}
+          draft: true
+          prerelease: true
+
+      - name: Create a GitHub release2
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "${{ steps.mathieudutourtag_version.outputs.new_tag }}.1"
+          name: Release ${{ steps.mathieudutourtag_version.outputs.new_tag }}
+          body: ${{ steps.mathieudutourtag_version.outputs.changelog }}
+          draft: true
