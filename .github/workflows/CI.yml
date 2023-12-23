@@ -50,14 +50,19 @@ jobs:
       - name: Build and push
         run: |-
           echo "${{ env.REPO }}:latest,${{ env.REPO }}"
-          echo "${{ steps.paulhatchversioning.outputs.version }}"  
-          echo "${{ steps.paulhatchversioning.outputs.version_tag }}" 
-          echo "${{ steps.mathieudutourtag_version.outputs.previous_version }}"  
-          echo "${{ steps.mathieudutourtag_version.outputs.previous_tag }}"  
-          echo "${{ steps.mathieudutourtag_version.outputs.new_version }}"  
-          echo "${{ steps.mathieudutourtag_version.outputs.new_tag }}"  
-          echo "${{ steps.anothrNicktagversion.outputs.old_tag }}"  
-          echo "${{ steps.anothrNicktagversion.outputs.new_tag }}" 
+          echo "paulhatchversioning --"  
+          echo "version: ${{ steps.paulhatchversioning.outputs.version }}"  
+          echo "version_tag: ${{ steps.paulhatchversioning.outputs.version_tag }}" 
+
+          echo "mathieudutourtag_version --"  
+          echo "previous_version: ${{ steps.mathieudutourtag_version.outputs.previous_version }}"  
+          echo "previous_tag: ${{ steps.mathieudutourtag_version.outputs.previous_tag }}"  
+          echo "new_version: ${{ steps.mathieudutourtag_version.outputs.new_version }}"  
+          echo "new_tag: ${{ steps.mathieudutourtag_version.outputs.new_tag }}"  
+          
+          echo "anothrNicktagversion --"  
+          echo "old_tag: ${{ steps.anothrNicktagversion.outputs.old_tag }}"  
+          echo "new_tag: ${{ steps.anothrNicktagversion.outputs.new_tag }}" 
           
       # - name: Create Release
       #   if: ${{ !startsWith(github.ref, 'refs/tags/') }}
