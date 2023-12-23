@@ -1,5 +1,6 @@
 name: CI
 on:
+  workflow_dispatch: 
   push:
     branches:
       - main
@@ -21,25 +22,45 @@ jobs:
         run: echo "1.0.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ID}"
         
       - name: Semantic versioning
-        id: versioning
+        id: paulhatchversioning
         uses: PaulHatch/semantic-version@v4.0.2
         with:
           branch: main
           tag_prefix: "v"
-          major_pattern: "BREAKING CHANGE:"
-          minor_pattern: "feat:"
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
           format: "v${major}.${minor}.${patch}" #-rc${increment}
 
-      - name: Build and push
-        run: echo "${{ env.REPO }}:latest,${{ env.REPO }}:${{ steps.versioning.outputs.version }}"
-
-      - name: Create Release
-        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.github_token }}
+      - name: Bump version and push tag
+        id: mathieudutourtag_version
+        uses: mathieudutour/github-tag-action@v6.1
         with:
-          tag_name: ${{ steps.versioning.outputs.version }}
-          release_name: ${{ steps.versioning.outputs.version }}
-          draft: true
-          prerelease: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dry_run: true
+
+      - name: Bump version and push tag
+        id: anothrNicktagversion
+        uses: anothrNick/github-tag-action@1.64.0 # Don't use @master or @v1 unless you're happy to test the latest version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
+          WITH_V: true
+          #PRERELEASE: true
+          DRY_RUN: true
+
+      - name: Build and push
+        run: |-
+          echo "${{ env.REPO }}:latest,${{ env.REPO }}"
+          echo "${{ steps.paulhatchversioning.outputs }}"
+          echo "${{ steps.mathieudutourtag_version.outputs }}""
+          echo "${{ steps.anothrNicktagversion.outputs }}""
+          
+      # - name: Create Release
+      #   if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.github_token }}
+      #   with:
+      #     tag_name: ${{ steps.versioning.outputs.version }}
+      #     release_name: ${{ steps.versioning.outputs.version }}
+      #     draft: true
+      #     prerelease: true
