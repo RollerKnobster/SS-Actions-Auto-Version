@@ -36,17 +36,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          dry_run: true
-
-      - name: Bump version and push tag
-        id: anothrNicktagversion
-        uses: anothrNick/github-tag-action@1.64.0 # Don't use @master or @v1 unless you're happy to test the latest version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
-          DEFAULT_BRANCH: main
-          WITH_V: true
-          #PRERELEASE: true
-          DRY_RUN: true
+          #dry_run: true
 
       - name: Build and push
         run: |-
